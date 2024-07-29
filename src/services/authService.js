@@ -29,7 +29,6 @@ const createUser = async (userData) => {
 - Từ những lần đăng nhập sau kiểm tra email và provider xem có đúng giá trị không nếu có thi logic
 - Nếu mà lỗi thì không logic
 */
-
 const loginSocial = async (userData) => {
   try {
     const findUser = await User.findOne({ email: userData.email })
@@ -166,40 +165,6 @@ const updateAddress = async (userId, addressData) => {
   return await User.findByIdAndUpdate(userId, { $push: { addresses: addressData } }, { new: true })
 }
 
-// Hàm phụ để đặt lại tất cả `isDefault` thành `false`
-async function resetIsDefault(userId) {
-  await User.updateOne({ _id: userId }, { $set: { 'addresses.$[].isDefault': false } })
-}
-
-const changeAddressDefault = async (userId, addressId) => {
-  // Đặt lại tất cả `isDefault` thành `false`
-  await resetIsDefault(userId)
-
-  // Cập nhật địa chỉ được chọn thành `true`
-  return await User.findByIdAndUpdate(
-    userId,
-    {
-      $set: { 'addresses.$[elem].isDefault': true }
-    },
-    {
-      arrayFilters: [{ 'elem._id': addressId }],
-      new: true
-    }
-  )
-}
-
-const updateNewAddress = async (userId, addressId, addressData) => {
-  return await User.findByIdAndUpdate(
-    userId,
-    { $set: { 'addresses.$[elem]': addressData } },
-    { arrayFilters: [{ 'elem._id': addressId }], new: true }
-  )
-}
-
-const deleteAddress = async (userId, addressId) => {
-  return await User.findByIdAndUpdate(userId, { $pull: { addresses: { _id: addressId } } }, { new: true })
-}
-
 const addProductFavorite = async (userId, productId) => {
   return await User.findByIdAndUpdate(userId, { $addToSet: { favoriteProducts: productId } }, { new: true })
 }
@@ -274,9 +239,6 @@ export const authService = {
   getProfile,
   updateProfile,
   updateAddress,
-  updateNewAddress,
-  changeAddressDefault,
-  deleteAddress,
   addProductFavorite,
   deleteProductFavorite,
   getProductFavoriteByUser,

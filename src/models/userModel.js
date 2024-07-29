@@ -11,7 +11,8 @@ var userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      trim: true
+      trim: true,
+      index: true
     },
     password: {
       type: String,
@@ -20,39 +21,12 @@ var userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: 'user'
+      default: 'user',
+      enum: ['user', 'admin']
     },
     phoneNumber: {
       type: String
     },
-    addresses: [
-      {
-        fullName: {
-          type: String
-        },
-        phoneNumber: {
-          type: String
-        },
-        location: {
-          type: String
-        },
-        city: {
-          type: String
-        },
-        state: {
-          type: String
-        },
-        type: {
-          type: String,
-          required: true,
-          enum: ['Nhà riêng', 'Văn phòng']
-        },
-        isDefault: {
-          type: Boolean,
-          default: false
-        }
-      }
-    ],
     birthday: {
       type: Date
     },
@@ -85,6 +59,12 @@ var userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Blog'
+      }
+    ],
+    address: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Address'
       }
     ],
     avatar: {
