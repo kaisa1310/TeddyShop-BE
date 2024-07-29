@@ -267,71 +267,6 @@ const unBlockUser = async (req, res, next) => {
   }
 }
 
-const updateAddress = async (req, res, next) => {
-  try {
-    const { _id } = req.user
-    validateMongodbId(_id)
-    const addressData = req.body
-    const user = await authService.updateAddress(_id, addressData)
-
-    res.status(StatusCodes.OK).json({
-      id: user._id,
-      userName: user.fullName,
-      userEmail: user.email,
-      userAvatar: user.avatar,
-      userPhone: user.phoneNumber,
-      userGender: user.gender,
-      userAddress: user.addresses
-    })
-  } catch (error) {
-    next(new ApiError(StatusCodes.BAD_REQUEST, 'Error form server, please try again'))
-  }
-}
-
-const deleteAddress = async (req, res, next) => {
-  try {
-    const { _id } = req.user
-    validateMongodbId(_id)
-    const { addressId } = req.params
-    validateMongodbId(addressId)
-    const user = await authService.deleteAddress(_id, addressId)
-
-    res.status(StatusCodes.OK).json({
-      id: user._id,
-      userName: user.fullName,
-      userEmail: user.email,
-      userAvatar: user.avatar,
-      userPhone: user.phoneNumber,
-      userGender: user.gender,
-      userAddress: user.addresses
-    })
-  } catch (error) {
-    next(new ApiError(StatusCodes.BAD_REQUEST, 'Error form server, please try again'))
-  }
-}
-
-const changeAddressDefault = async (req, res, next) => {
-  try {
-    const { _id } = req.user
-    validateMongodbId(_id)
-    const { addressId } = req.params
-    validateMongodbId(addressId)
-    const user = await authService.changeAddressDefault(_id, addressId)
-
-    res.status(StatusCodes.OK).json({
-      id: user._id,
-      userName: user.fullName,
-      userEmail: user.email,
-      userAvatar: user.avatar,
-      userPhone: user.phoneNumber,
-      userGender: user.gender,
-      userAddress: user.addresses
-    })
-  } catch (error) {
-    next(new ApiError(StatusCodes.BAD_REQUEST, 'Error form server, please try again'))
-  }
-}
-
 const addProductFavorite = async (req, res, next) => {
   try {
     const { _id } = req.user
@@ -446,9 +381,6 @@ export const authController = {
   deleteUserById,
   getProfile,
   updateProfile,
-  updateAddress,
-  deleteAddress,
-  changeAddressDefault,
   addProductFavorite,
   deleteProductFavorite,
   getProductFavorite,
