@@ -39,8 +39,7 @@
     "path": "^0.12.7",
     "request": "^2.88.2",
     "sharp": "^0.33.2",
-    "uuid": "^9.0.1",
-    "vnpay": "^0.9.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
